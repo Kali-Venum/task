@@ -37,10 +37,7 @@ const login = catchAsync(async (req, res) => {
       },
       result: {
         data: user,
-        tokens: {
-          accessToken: tokens.access.token,
-          refreshToken: tokens.refresh.token,
-        },
+        tokens,
       },
     });
   }

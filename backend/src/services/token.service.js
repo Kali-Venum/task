@@ -94,7 +94,7 @@ const generateAuthTokens = async (user) => {
     tokenTypes.ACCESS
   );
 
-  const refreshTokenExpires = new Date(Date.now() + 20 * 60 * 10000);
+  const refreshTokenExpires = new Date(Date.now() + 20 * 60 * 100000);
   // const refreshTokenExpires = 60000; // Temp:- for development perpous.
   const refreshToken = generateToken(
     user.id,
