@@ -30,7 +30,7 @@ const getAllTasksOfAUser = async (reqUser) => {
   if (reqUser.role === "user") {
     const tasks = await TaskModel.find({
       user: new mongoose.Types.ObjectId(reqUser._id),
-    });
+    }).sort({ createdAt: -1 });
 
     if (tasks) {
       return tasks;
