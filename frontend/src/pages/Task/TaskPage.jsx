@@ -44,12 +44,11 @@ const TaskPage = () => {
   }, []);
 
   return (
-    <div>
       <div>
         <div className="bd-second-sec">
           <div className="flex gap-7">
             <div className="w-full sm:my-10 my-6 relative px-4">
-              <div className="sm:flex justify-between my-3">
+              <div className="sm:flex justify-end my-3">
                 <div className="sm:ml-4 sm:w-28 sm:inline-block flex justify-end w-full sm:mt-0 mt-3">
                   <button
                     onClick={modalOpener}
@@ -156,7 +155,6 @@ const TaskPage = () => {
           </div>
         ) : null}
       </div>
-    </div>
   );
 };
 
