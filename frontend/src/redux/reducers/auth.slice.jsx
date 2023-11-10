@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { API_URL } from "../../constants/config";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const initialState = {
   isLoading: false,
@@ -53,7 +54,7 @@ const authSlice = createSlice({
         //   "refreshToken",
         //   payload?.result?.tokens.refreshToken
         // );
-        // toast.success(payload.serverResponse.message);
+        toast.success(payload.serverResponse.message);
       })
       .addCase(registerUser.rejected, (state, { payload }) => {
         state.isLoading = false;
@@ -74,12 +75,11 @@ const authSlice = createSlice({
           "refreshToken",
           payload?.result?.tokens.refreshToken
         );
-        // toast.success(payload.serverResponse.message);
+        toast.success(payload.serverResponse.message);
       })
       .addCase(loginUser.rejected, (state, { payload }) => {
-        console.log(payload, "payload");
         state.isLoading = false;
-        toast.success(payload.serverResponse.message);
+        toast.error(payload.message);
       });
   },
 });

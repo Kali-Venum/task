@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { API_URL } from "../../constants/config";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const initialState = {
   isLoading: false,
@@ -50,23 +51,20 @@ const taskSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(createTask.fulfilled, (state, { payload }) => {
-        console.log(payload, "payload")
         state.isLoading = false;
         state.user = payload.result.data;
-        // toast.success(payload.serverResponse.message);
+        toast.success(payload.serverResponse.message);
       })
       .addCase(createTask.rejected, (state, { payload }) => {
         state.isLoading = false;
-        // toast.error(payload.message);
+        toast.error(payload.message);
       })
       .addCase(getAllTasks.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(getAllTasks.fulfilled, (state, { payload }) => {
-        console.log(payload, "payload");
         state.isLoading = false;
         state.tasksData = payload.result.data
-        // toast.success(payload.serverResponse.message);
       })
       .addCase(getAllTasks.rejected, (state, { payload }) => {
         state.isLoading = false;
@@ -74,7 +72,6 @@ const taskSlice = createSlice({
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
         window.location.reload();
-        // toast.success(payload.serverResponse.message);
       });
   },
 });

@@ -2,6 +2,8 @@ import { Route, Routes } from "react-router-dom";
 import { routes } from "./routes/routes";
 import AuthRoute from "./RouteGuard/auth.route";
 import ProtectedRoute from "./RouteGuard/protected.route";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import "./App.css";
 
 function App() {
@@ -24,6 +26,7 @@ function App() {
           );
         })}
       </Routes>
+      <ToastContainer />
     </>
   );
 }
