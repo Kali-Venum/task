@@ -1,25 +1,19 @@
-import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const NoContentPage = () => {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
-
     let user = localStorage.getItem("user");
-user = JSON.parse(user)
-    if (user?.role==='admin') {
-      navigate('/get-all-tasks')
+    user = JSON.parse(user);
+    
+    if (user?.role === "user") {
+      navigate("/get-all-tasks");
+    } else {
+      navigate("/login");
     }
-    else {
-      navigate('/login')
-    }
-  }, [])
-  return (
-    <div>
-      </div>
-  )
-}
+  }, []);
+  return <div></div>;
+};
 
-export default NoContentPage
+export default NoContentPage;
