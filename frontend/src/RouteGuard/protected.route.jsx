@@ -6,7 +6,7 @@ const ProtectedRoute = (props) => {
 
   if (user !== null) {
     user = JSON.parse(user);
-    if (user.role === "admin") {
+    if (user.role === "user") {
       return children;
     } else {
       return <Navigate to="/login" replace />;

@@ -2,9 +2,14 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import { loginSchema } from "../../schema/auth.schema";
 import { BiShow, BiHide } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { loginUser } from "../../redux/reducers/auth.slice";
+import { useDispatch } from "react-redux";
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
 
   const initialValues = {
@@ -18,17 +23,14 @@ const LoginPage = () => {
       validationSchema: loginSchema,
 
       onSubmit: async (values, action) => {
-        console.log(values);
-        // const value = await dispatch(
-        //   loginAdmin({ email: values.email, password: values.password })
-        // );
-        // console.log(value, "value");
-        // if (value.type === "admin/login/fulfilled") {
-        //   navigate("/dashboard");
-        // } else {
-        //   return;
-        // }
-        // action.resetForm();
+        const value = await dispatch(loginUser(values));
+
+        if (value.type === "/api/auth/login/fulfilled") {
+          navigate("/get-all-tasks");
+        } else {
+          return;
+        }
+        action.resetForm();
       },
     });
 
@@ -74,8 +76,8 @@ const LoginPage = () => {
               </label>
               <div className="flex relative">
                 <input
-                  type="password"
                   name="password"
+                  type={showPassword ? "text" : "password"}
                   value={values.password}
                   onChange={handleChange}
                   onBlur={handleBlur}

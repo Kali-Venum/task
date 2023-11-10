@@ -4,11 +4,13 @@ import { registerSchema } from "../../schema/auth.schema";
 import { BiShow, BiHide } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../../redux/reducers/auth.slice";
+import { useDispatch, useSelector } from "react-redux";
 
 const RegistrationPage = () => {
+  const dispatch = useDispatch()
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const { user } = useSelector((state) => console.log(state.authReducer));
+  const { user } = useSelector((state) => state.authReducer);
 
   const initialValues = {
     name: "",
@@ -22,13 +24,13 @@ const RegistrationPage = () => {
 
       onSubmit: async (values, action) => {
         const value = await dispatch(registerUser(values));
-        console.log(value, "value");
-        // if (value.type === "/login/fulfilled") {
-        //   navigate("/dashboard");
-        // } else {
-        //   return;
-        // }
-        // action.resetForm();
+        
+        if (value.type === "/api/auth/register/fulfilled") {
+          navigate("/login");
+        } else {
+          return;
+        }
+        action.resetForm();
       },
     });
 
