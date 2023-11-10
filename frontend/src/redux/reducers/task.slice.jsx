@@ -14,7 +14,11 @@ const initialState = {
 export const createTask = createAsyncThunk(
   "/api/task/create",
   async (user, { rejectWithValue }) => {
-    const accessToken = localStorage.getItem("accessToken");
+    const tokens = localStorage.getItem("tokens");
+    const accessToken = JSON.parse(tokens).access.token;
+
+    console.log(accessToken, 'accessToken')
+
     try {
       const response = await axios.post(`${API_URL}/task/create`, user, {
         headers: { Authorization: `Bearer ${accessToken}` },
@@ -29,7 +33,9 @@ export const createTask = createAsyncThunk(
 export const getAllTasks = createAsyncThunk(
   "/api/task/get",
   async (data, { rejectWithValue }) => {
-    const accessToken = localStorage.getItem("accessToken");
+    const tokens = localStorage.getItem("tokens");
+    const accessToken = JSON.parse(tokens).access.token;
+
     try {
       const response = await axios.get(`${API_URL}/task/get`, {
         headers: { Authorization: `Bearer ${accessToken}` },
@@ -64,13 +70,12 @@ const taskSlice = createSlice({
       })
       .addCase(getAllTasks.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        state.tasksData = payload.result.data
+        state.tasksData = payload.result.data;
       })
       .addCase(getAllTasks.rejected, (state, { payload }) => {
         state.isLoading = false;
         localStorage.removeItem("user");
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("tokens");
         window.location.reload();
       });
   },

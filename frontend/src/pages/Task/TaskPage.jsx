@@ -43,8 +43,7 @@ const TaskPage = () => {
 
   const logoutHandler = () => {
     localStorage.removeItem("user");
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("tokens");
     navigate("/login");
   };
 

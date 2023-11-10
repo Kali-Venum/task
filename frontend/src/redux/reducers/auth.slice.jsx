@@ -45,15 +45,6 @@ const authSlice = createSlice({
       .addCase(registerUser.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         state.user = payload.result.data;
-        // localStorage.setItem("user", JSON.stringify(payload?.result?.data));
-        // localStorage.setItem(
-        //   "accessToken",
-        //   payload?.result?.tokens.accessToken
-        // );
-        // localStorage.setItem(
-        //   "refreshToken",
-        //   payload?.result?.tokens.refreshToken
-        // );
         toast.success(payload.serverResponse.message);
       })
       .addCase(registerUser.rejected, (state, { payload }) => {
@@ -64,17 +55,11 @@ const authSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(loginUser.fulfilled, (state, { payload }) => {
+        console.log(payload, "payload")
         state.isLoading = false;
         state.user = payload.result.data;
         localStorage.setItem("user", JSON.stringify(payload?.result?.data));
-        localStorage.setItem(
-          "accessToken",
-          payload?.result?.tokens.accessToken
-        );
-        localStorage.setItem(
-          "refreshToken",
-          payload?.result?.tokens.refreshToken
-        );
+        localStorage.setItem("tokens", JSON.stringify(payload?.result?.tokens));
         toast.success(payload.serverResponse.message);
       })
       .addCase(loginUser.rejected, (state, { payload }) => {
