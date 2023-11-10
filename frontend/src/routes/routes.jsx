@@ -14,11 +14,11 @@ export const routes = [
     component: <LoginPage />,
     protected: false,
   },
-  {
-    path: "/create-task",
-    component: <TaskPage />,
-    protected: true,
-  },
+//   {
+//     path: "/create-task",
+//     component: <TaskPage />,
+//     protected: true,
+//   },
   {
     path: "/get-all-tasks",
     component: <TaskPage />,

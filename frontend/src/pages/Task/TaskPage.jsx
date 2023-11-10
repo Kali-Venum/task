@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createTaskSchema } from "../../schema/task.schema";
 import { useFormik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllTasks, createTask } from "../../redux/reducers/task.slice";
 
 const TaskPage = () => {
+  const dispatch = useDispatch();
   const [modal, setModal] = useState(false);
+  const { tasksData } = useSelector((state) => state.taskReducer);
 
   const initialValues = {
     name: "",
@@ -16,17 +20,15 @@ const TaskPage = () => {
       validationSchema: createTaskSchema,
 
       onSubmit: async (values, action) => {
-        console.log(values);
-        // const value = await dispatch(
-        //   loginAdmin({ email: values.email, password: values.password })
-        // );
-        // console.log(value, "value");
-        // if (value.type === "admin/login/fulfilled") {
-        //   navigate("/dashboard");
-        // } else {
-        //   return;
-        // }
-        // action.resetForm();
+        const value = await dispatch(createTask(values));
+
+        if (value.type === "/api/task/create/fulfilled") {
+          modalCloser();
+          dispatch(getAllTasks());
+        } else {
+          return;
+        }
+        action.resetForm();
       },
     });
 
@@ -37,6 +39,10 @@ const TaskPage = () => {
     setModal(false);
   };
 
+  useEffect(() => {
+    dispatch(getAllTasks());
+  }, []);
+
   return (
     <div>
       <div>
@@ -44,7 +50,7 @@ const TaskPage = () => {
           <div className="flex gap-7">
             <div className="w-full sm:my-10 my-6 relative px-4">
               <div className="sm:flex justify-between my-3">
-                <div className="Rightbtn sm:ml-4 sm:w-28 sm:inline-block flex justify-end w-full sm:mt-0 mt-3">
+                <div className="sm:ml-4 sm:w-28 sm:inline-block flex justify-end w-full sm:mt-0 mt-3">
                   <button
                     onClick={modalOpener}
                     className="font-bold p-2 bg-black text-white"
@@ -70,18 +76,18 @@ const TaskPage = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* {usersData?.length > 0
-                        ? usersData?.map((item) => (
+                      {tasksData?.length > 0
+                        ? tasksData?.map((item) => (
                             <tr>
                               <td className="text-left border-b border-[#dbdbdb] p-2">
                                 {item.name}
                               </td>
                               <td className="text-left border-b border-[#dbdbdb] p-2">
-                                {item.email}
+                                {item.description}
                               </td>
                             </tr>
                           ))
-                        : null} */}
+                        : null}
                     </tbody>
                   </table>
                 </div>
